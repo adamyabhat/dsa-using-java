@@ -8,29 +8,16 @@ class Node{
 }
 
 class BinarySearchTree {   
-    static Node root;
+    static Node root = null;
+    static int prev = Integer.MIN_VALUE;
         
-    public static void insert(int key){
-        Node node = new Node(key);
+    public static Node insert(Node root, int key){
         if(root==null) {
-            root = node;
-            return;
+            return new Node(key);
         }
-        Node prev=null;
-        Node temp=root;
-        while (temp!=null){
-            if(temp.val>key){
-                prev=temp;
-                temp=temp.left;
-            }
-            else if (temp.val<key){
-                prev=temp;
-                temp=temp.right;
-            }
-        }
-        if(prev.val>key)
-            prev.left=node;
-        else prev.right=node;
+        if (root.val > key) { root.left = insert(root.left, key);}
+        if (root.val < key) { root.right = insert(root.right, key);}   
+        return root;
     }
         
     public static void inorder(Node head){
@@ -63,24 +50,34 @@ class BinarySearchTree {
         return minValue;
     }
 
+    public static boolean isBST(Node root)
+    {
+        if(root != null){
+            if(!isBST(root.left)){ return false; }
+            if (root.val <= prev) { return false; }
+            return isBST(root.right);
+        }
+        return true;
+    }
+
 	public static void main (String[] args) {
-		insert(100);
-		insert(101);
-		insert(50);
-		insert(75);
-		insert(30);
-		insert(45);
-		insert(48);
-		insert(49);
-		insert(46);
-		insert(35);
-		insert(36);
-		insert(33);
+		root = insert(root,100);
+		insert(root,101);
+		insert(root,50);
+		insert(root,75);
+		insert(root,30);
+		insert(root,45);
+		insert(root,48);
+		insert(root,49);
+		insert(root,46);
+		insert(root,35);
+		insert(root,36);
+		insert(root,33);
         delete(root,100);
         delete(root,45);
         delete(root,49);
         delete(root,30);
-        System.out.println("root : " + root.val);
+        System.out.println("isbst : " + isBST(root));
 		inorder(root);
 	}
 }
