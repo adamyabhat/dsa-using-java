@@ -40,14 +40,47 @@ class BinarySearchTree {
         inorder(head.right);
     }
 
+    public static Node delete(Node root, int key) {
+        if (root == null) { return root; }
+
+        if (root.val > key) { root.left = delete(root.left,key); }
+        else if (root.val < key) { root.right = delete(root.right,key); }
+        else {
+            if (root.left == null) { return root.right; }
+            else if (root.right == null) { return root.left; }
+            root.val = minValue(root.right);
+            root.right = delete(root.right,root.val);
+        }
+        return root;
+    }
+
+    public static int minValue(Node root) {
+        int minValue = root.val;
+        while(root.left != null){
+            minValue = root.left.val;
+            root = root.left;
+        }
+        return minValue;
+    }
+
 	public static void main (String[] args) {
-		insert(30);
+		insert(100);
+		insert(101);
 		insert(50);
-		insert(15);
-		insert(20);
-		insert(10);
-		insert(40);
-		insert(60);
+		insert(75);
+		insert(30);
+		insert(45);
+		insert(48);
+		insert(49);
+		insert(46);
+		insert(35);
+		insert(36);
+		insert(33);
+        delete(root,100);
+        delete(root,45);
+        delete(root,49);
+        delete(root,30);
+        System.out.println("root : " + root.val);
 		inorder(root);
 	}
 }
