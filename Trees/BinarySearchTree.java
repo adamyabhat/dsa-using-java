@@ -52,12 +52,10 @@ class BinarySearchTree {
 
     public static boolean isBST(Node root)
     {
-        if(root != null){
-            if(!isBST(root.left)){ return false; }
-            if (root.val <= prev) { return false; }
-            return isBST(root.right);
-        }
-        return true;
+        if (root == null) return true;
+        if (root.left != null && root.val <= root.left.val) return false;
+        if (root.right != null && root.val >= root.right.val) return false;
+        return isBST(root.left) && isBST(root.right);
     }
 
 	public static void main (String[] args) {
